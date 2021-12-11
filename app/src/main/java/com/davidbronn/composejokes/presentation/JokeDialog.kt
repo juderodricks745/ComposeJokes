@@ -1,0 +1,92 @@
+package com.davidbronn.composejokes.presentation
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import com.davidbronn.composejokes.domain.model.Item
+
+@ExperimentalMaterialApi
+@Composable
+fun JokeDialog(
+    isCategory: Boolean,
+    viewModel: JokeViewModel,
+    onDismiss: () -> Unit
+) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(dismissOnClickOutside = false)
+    ) {
+        Card(
+            elevation = 8.dp,
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Box {
+                Column(
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = if (isCategory) "Categories" else "BlackList",
+                        modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
+                        fontSize = 20.sp
+                    )
+                    GroupedCheckbox(isCategory, viewModel, if (isCategory) viewModel.category else viewModel.blacklist)
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Button(
+                            onClick = {
+                                onDismiss()
+                                viewModel.fetchJoke()
+                            },
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier
+                                .width(150.dp)
+                                .padding(vertical = 16.dp)
+                        ) {
+                            Text(text = "Done", modifier = Modifier.padding(vertical = 3.dp))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun GroupedCheckbox(
+    isCategory: Boolean,
+    viewModel: JokeViewModel,
+    checkboxItems: MutableList<Item>,
+) {
+    checkboxItems.forEachIndexed { index, item ->
+        val checkedState = remember { mutableStateOf(item.selected) }
+        Row(modifier = Modifier.clickable {
+            checkedState.value = checkedState.value.not()
+            if (isCategory) {
+                viewModel.updateCategory(index, checkedState.value)
+            } else {
+                viewModel.updateBlackList(index, checkedState.value)
+            }
+        }) {
+            Checkbox(
+                checked = checkedState.value,
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 8.dp),
+                onCheckedChange = { checkedState.value = it },
+            )
+            Text(text = item.title, modifier = Modifier.padding(vertical = 8.dp))
+        }
+    }
+}
