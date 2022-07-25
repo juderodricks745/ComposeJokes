@@ -1,7 +1,5 @@
 package com.davidbronn.composejokes.presentation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -10,11 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.davidbronn.composejokes.R
 import com.davidbronn.composejokes.domain.model.Item
 
 @ExperimentalMaterialApi
@@ -37,7 +36,7 @@ fun JokeDialog(
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
-                        text = if (isCategory) "Categories" else "BlackList",
+                        text = if (isCategory) stringResource(R.string.lbl_categories) else stringResource(R.string.lbl_blacklist),
                         modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
                         fontSize = 20.sp
                     )
@@ -56,7 +55,7 @@ fun JokeDialog(
                                 .width(150.dp)
                                 .padding(vertical = 16.dp)
                         ) {
-                            Text(text = "Done", modifier = Modifier.padding(vertical = 3.dp))
+                            Text(text = stringResource(R.string.lbl_done), modifier = Modifier.padding(vertical = 3.dp))
                         }
                     }
                 }
@@ -72,19 +71,18 @@ fun GroupedCheckbox(
     checkboxItems: MutableList<Item>,
 ) {
     checkboxItems.forEachIndexed { index, item ->
-        val checkedState = remember { mutableStateOf(item.selected) }
-        Row(modifier = Modifier.clickable {
-            checkedState.value = checkedState.value.not()
-            if (isCategory) {
-                viewModel.updateCategory(index, checkedState.value)
-            } else {
-                viewModel.updateBlackList(index, checkedState.value)
-            }
-        }) {
+        Row {
+            val checkedState = remember { mutableStateOf(item.selected) }
             Checkbox(
                 checked = checkedState.value,
-                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 8.dp),
-                onCheckedChange = { checkedState.value = it },
+                onCheckedChange = {
+                    checkedState.value = it
+                    if (isCategory) {
+                        viewModel.updateCategory(index, checkedState.value)
+                    } else {
+                        viewModel.updateBlackList(index, checkedState.value)
+                    }
+                },
             )
             Text(text = item.title, modifier = Modifier.padding(vertical = 8.dp))
         }

@@ -7,7 +7,9 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.davidbronn.composejokes.R
 
 @ExperimentalMaterialApi
 @Composable
@@ -38,7 +40,7 @@ fun JokeAppBar(viewModel: JokeViewModel) {
 
     TopAppBar(elevation = 10.dp, backgroundColor = MaterialTheme.colors.primary) {
         Text(
-            text = "Jokes",
+            text = stringResource(R.string.lbl_jokes),
             style = MaterialTheme.typography.h5,
             color = MaterialTheme.colors.onPrimary,
             modifier = Modifier.padding(start = 16.dp)
@@ -49,7 +51,7 @@ fun JokeAppBar(viewModel: JokeViewModel) {
                 modifier = Modifier.size(width = 30.dp, height = 30.dp),
                 onClick = { expandedMenu.value = true }
             ) {
-                Icon(Icons.Filled.MoreVert, "Show More Options")
+                Icon(Icons.Filled.MoreVert, stringResource(R.string.lbl_more_options))
             }
             DropdownMenu(
                 modifier = Modifier.wrapContentSize(align = Alignment.TopEnd),
@@ -59,21 +61,21 @@ fun JokeAppBar(viewModel: JokeViewModel) {
                     expandedMenu.value = false
                     openDialog(DialogOptionType.Category)
                 }) {
-                    Text(text = "Categories", style = MaterialTheme.typography.body1)
+                    Text(text = stringResource(R.string.lbl_categories), style = MaterialTheme.typography.body1)
                 }
                 Divider()
                 DropdownMenuItem(onClick = {
                     expandedMenu.value = false
                     openDialog(DialogOptionType.BlackList)
                 }) {
-                    Text(text = "BlackList", style = MaterialTheme.typography.body1)
+                    Text(text = stringResource(R.string.lbl_blacklist), style = MaterialTheme.typography.body1)
                 }
                 Divider()
                 DropdownMenuItem(onClick = {
                     expandedMenu.value = false
                     readMeDialogState = true
                 }) {
-                    Text(text = "READ.me", style = MaterialTheme.typography.body1)
+                    Text(text = stringResource(R.string.lbl_read_me), style = MaterialTheme.typography.body1)
                 }
             }
         }

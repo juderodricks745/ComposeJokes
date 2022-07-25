@@ -9,9 +9,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.davidbronn.composejokes.R
 
 @Composable
 fun ReadMeDialog(onDismiss: () -> Unit) {
@@ -25,23 +27,27 @@ fun ReadMeDialog(onDismiss: () -> Unit) {
         ) {
             Box(modifier = Modifier.padding(16.dp)) {
                 Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = "Greetings Everyone", style = MaterialTheme.typography.subtitle1)
+                    Text(text = stringResource(R.string.lbl_greetings_everyone), style = MaterialTheme.typography.subtitle1)
                     Box(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "This application is created to display \"Programming\" related jokes.\n",
-                        style = MaterialTheme.typography.body1
+                        text = stringResource(R.string.lbl_statement_1),
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Text(
-                        text = "In addition, it also has other jokes which are offensive\n",
-                        style = MaterialTheme.typography.body1
+                        text = stringResource(R.string.lbl_statement_2),
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Text(
-                        text = "The primary goal of this application is to learn Jetpack Compose.\n",
-                        style = MaterialTheme.typography.body1
+                        text = stringResource(R.string.lbl_statement_3),
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Text(
-                        text = "It is not the developer's intention to hurt feelings or cause discomfort to anyone.",
-                        style = MaterialTheme.typography.body1
+                        text = stringResource(R.string.lbl_statement_4),
+                        style = MaterialTheme.typography.body1,
+                        modifier = Modifier.padding(bottom = 4.dp)
                     )
                     Row(
                         horizontalArrangement = Arrangement.Center,
@@ -54,7 +60,7 @@ fun ReadMeDialog(onDismiss: () -> Unit) {
                                 .width(150.dp)
                                 .padding(vertical = 16.dp)
                         ) {
-                            Text(text = "Close", modifier = Modifier.padding(vertical = 3.dp))
+                            Text(text = stringResource(R.string.lbl_close), modifier = Modifier.padding(vertical = 3.dp))
                         }
                     }
                 }

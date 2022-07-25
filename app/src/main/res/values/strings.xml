@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">ComposeJokes</string>
+    <string name="lbl_fetch_new_joke">Fetches a new Joke</string>
+    <string name="lbl_jokes">Jokes</string>
+    <string name="lbl_more_options">Show More Options</string>
+    <string name="lbl_categories">Categories</string>
+    <string name="lbl_blacklist">BlackList</string>
+    <string name="lbl_read_me">READ.me</string>
+    <string name="lbl_greetings_everyone">Greetings Everyone</string>
+    <string name="lbl_statement_1">This application is created to display Programming related jokes.</string>
+    <string name="lbl_statement_2">In addition, it also has other jokes which are offensive</string>
+    <string name="lbl_statement_3">The primary goal of this application is to learn Jetpack Compose.</string>
+    <string name="lbl_statement_4">It is not the developer\'s intention to hurt feelings or cause discomfort to anyone.</string>
+    <string name="lbl_close">Close</string>
+    <string name="lbl_retry">Retry</string>
+    <string name="lbl_select_category">Please select any Category to continue!</string>
+    <string name="lbl_done">Done</string>
 </resources>
