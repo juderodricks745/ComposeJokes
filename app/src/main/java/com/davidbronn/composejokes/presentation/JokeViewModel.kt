@@ -7,13 +7,12 @@ import com.davidbronn.composejokes.domain.model.Item
 import com.davidbronn.composejokes.domain.model.Joke
 import com.davidbronn.composejokes.domain.repository.IJokeRepository
 import com.davidbronn.composejokes.utils.Constants
-import com.davidbronn.composejokes.utils.Resource
+import com.davidbronn.composejokes.utils.Result
 import com.davidbronn.composejokes.utils.UiText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,7 +31,7 @@ class JokeViewModel @Inject constructor(
         fetchJoke()
     }
 
-    // region [CREATE CATEGORY & BLACKLIST]
+    // region [CATEGORY & BLACKLIST OPERATIONS]
     private fun createCategory() {
         category = Constants.category.mapIndexed { index, s ->
             Item(index, s, index == 0)
@@ -43,6 +42,10 @@ class JokeViewModel @Inject constructor(
         blacklist = Constants.blackList.mapIndexed { index, s ->
             Item(index, s, true)
         }.toMutableList()
+    }
+
+    private fun List<Item>.getSelectedItemsAsString(): String {
+        return this.filter { it.selected }.joinToString(",") { it.title.lowercase() }
     }
     // endregion
 
@@ -55,30 +58,28 @@ class JokeViewModel @Inject constructor(
     }
 
     fun fetchJoke() {
-        val categorySelected = category.filter { it.selected }.joinToString(",") { it.title.lowercase() }
-        var blackListSelected = blacklist.filter { it.selected }.joinToString(",") { it.title.lowercase() }
-        blackListSelected = blackListSelected.ifBlank { "" }
-        if (categorySelected.isBlank()) {
+        val selectedCategories = category.getSelectedItemsAsString()
+        val selectedBlacklist = blacklist.getSelectedItemsAsString().ifEmpty { "" }
+        if (selectedCategories.isBlank()) {
             _state.value = JokeState.Error(UiText.ResourceText(R.string.lbl_select_category), false)
             return
         }
+        _state.value = JokeState.Loading
         viewModelScope.launch {
-            _state.value = JokeState.Loading
-            repository.getJoke(categorySelected, blackListSelected).collect { resource ->
-                when(resource) {
-                    is Resource.Error -> {
-                        _state.value = JokeState.Error(UiText.DynamicText(resource.message), true)
-                    }
-                    is Resource.Success -> {
-                        _state.value = JokeState.Data(resource.data)
-                    }
+            _state.value = when (val result = repository.getJoke(selectedCategories, selectedBlacklist)) {
+                is Result.Error -> {
+                    JokeState.Error(UiText.StringText(result.message), retry = true)
+                }
+
+                is Result.Success -> {
+                    JokeState.Data(result.data)
                 }
             }
         }
     }
 
     sealed class JokeState {
-        object Loading: JokeState()
+        data object Loading : JokeState()
         data class Data(val joke: Joke) : JokeState()
         data class Error(val errorMessage: UiText, val retry: Boolean) : JokeState()
     }

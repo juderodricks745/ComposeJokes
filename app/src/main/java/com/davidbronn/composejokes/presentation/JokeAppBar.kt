@@ -1,19 +1,40 @@
 package com.davidbronn.composejokes.presentation
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.davidbronn.composejokes.R
+import com.davidbronn.composejokes.domain.model.Item
 
-@ExperimentalMaterialApi
 @Composable
-fun JokeAppBar(viewModel: JokeViewModel) {
+fun JokeAppBar(
+    categories: MutableList<Item>,
+    blackList: MutableList<Item>,
+    onRefreshJoke: () -> Unit,
+    onUpdateCategory: (Int, Boolean) -> Unit,
+    onUpdateBlackList: (Int, Boolean) -> Unit,
+) {
     val expandedMenu = remember { mutableStateOf(false) }
     var jokeDialogState by remember { mutableStateOf(false) }
     var readMeDialogState by remember { mutableStateOf(false) }
@@ -26,15 +47,31 @@ fun JokeAppBar(viewModel: JokeViewModel) {
 
     if (jokeDialogState) {
         currentDialogType?.let { dialogType ->
-            JokeDialog(dialogType == DialogOptionType.Category, viewModel, onDismiss = {
-                jokeDialogState = jokeDialogState.not()
-            })
+            JokeDialog(
+                isCategory = dialogType == DialogOptionType.Category,
+                categories = categories,
+                blackList = blackList,
+                onDismiss = {
+                    jokeDialogState = false
+                },
+                onRefresh = {
+                    jokeDialogState = false
+                    onRefreshJoke()
+                },
+                updateSelection = { isCategory, index, value ->
+                    if (isCategory) {
+                        onUpdateCategory(index, value)
+                    } else {
+                        onUpdateBlackList(index, value)
+                    }
+                }
+            )
         }
     }
 
     if (readMeDialogState) {
         ReadMeDialog(onDismiss = {
-            readMeDialogState = readMeDialogState.not()
+            readMeDialogState = false
         })
     }
 
@@ -83,6 +120,7 @@ fun JokeAppBar(viewModel: JokeViewModel) {
 }
 
 sealed class DialogOptionType {
-    object Category : DialogOptionType()
-    object BlackList : DialogOptionType()
+    data object Category : DialogOptionType()
+    data object BlackList : DialogOptionType()
 }
+

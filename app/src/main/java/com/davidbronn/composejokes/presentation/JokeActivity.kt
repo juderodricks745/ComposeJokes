@@ -19,9 +19,7 @@ class JokeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeJokesTheme {
-                Surface(color = MaterialTheme.colors.background) {
-                    JokesScreen()
-                }
+                JokesScreen()
             }
         }
     }
