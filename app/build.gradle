@@ -59,28 +59,37 @@ android {
 
 dependencies {
 
+    // Core KTX
     implementation libs.androidx.core.ktx
+
+    // AppCompat
     implementation libs.androidx.appcompat
+
+    // Material
     implementation libs.material
-    implementation libs.ui
     implementation libs.androidx.material
+
+    // Lifecycle
     implementation libs.androidx.lifecycle.runtime.ktx
-    implementation libs.androidx.activity.compose
     implementation libs.androidx.lifecycle.viewmodel.compose
-    implementation libs.ui.tooling.preview
-    implementation libs.ui.tooling
 
     // Hilt Dependencies
     implementation libs.hilt.android
-    implementation libs.androidx.hilt.navigation.compose
     kapt libs.dagger.hilt.compiler
     kapt libs.androidx.hilt.compiler
+    implementation libs.androidx.hilt.navigation.compose
 
-    // Retrofit Dependencies
+    // Networking
     implementation libs.retrofit
     implementation libs.converter.gson
     implementation libs.logging.interceptor
 
     // Timber
     implementation libs.timber
+
+    // Compose
+    implementation libs.ui
+    implementation libs.ui.tooling
+    implementation libs.ui.tooling.preview
+    implementation libs.androidx.activity.compose
 }
