@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -73,11 +72,9 @@ dependencies {
     implementation libs.androidx.lifecycle.runtime.ktx
     implementation libs.androidx.lifecycle.viewmodel.compose
 
-    // Hilt Dependencies
-    implementation libs.hilt.android
-    kapt libs.dagger.hilt.compiler
-    kapt libs.androidx.hilt.compiler
-    implementation libs.androidx.hilt.navigation.compose
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     // Networking
     implementation libs.retrofit

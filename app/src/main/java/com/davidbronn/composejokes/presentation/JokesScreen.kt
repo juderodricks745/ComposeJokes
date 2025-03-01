@@ -28,16 +28,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.davidbronn.composejokes.R
 import com.davidbronn.composejokes.components.JokeError
+import org.koin.androidx.compose.koinViewModel
 
 /**
  * Created by Jude on 17/July/2022
  */
 
 @Composable
-fun JokesScreen(viewModel: JokeViewModel = hiltViewModel()) {
+fun JokesScreen(viewModel: JokeViewModel = koinViewModel<JokeViewModel>()) {
 
     val state = rememberScaffoldState()
     val jokeState by viewModel.state.collectAsState()

@@ -9,14 +9,11 @@ import com.davidbronn.composejokes.domain.repository.IJokeRepository
 import com.davidbronn.composejokes.utils.Constants
 import com.davidbronn.composejokes.utils.Result
 import com.davidbronn.composejokes.utils.UiText
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class JokeViewModel @Inject constructor(
+class JokeViewModel(
     private val repository: IJokeRepository
 ) : ViewModel() {
 

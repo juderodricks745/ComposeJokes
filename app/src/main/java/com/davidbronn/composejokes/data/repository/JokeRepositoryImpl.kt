@@ -7,9 +7,8 @@ import com.davidbronn.composejokes.domain.model.Joke
 import com.davidbronn.composejokes.domain.repository.IJokeRepository
 import com.davidbronn.composejokes.utils.Mapper
 import com.davidbronn.composejokes.utils.Result
-import javax.inject.Inject
 
-class JokeRepositoryImpl @Inject constructor(
+class JokeRepositoryImpl(
     private val jokeApi: JokeApi,
     private val jokeMapper: Mapper<JokeResponse, Joke>
 ) : IJokeRepository {

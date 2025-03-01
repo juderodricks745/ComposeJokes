@@ -1,11 +1,13 @@
 package com.davidbronn.composejokes
 
 import android.app.Application
+import com.davidbronn.composejokes.di.jokeModule
 import com.davidbronn.composejokes.utils.DebugTimberTree
-import dagger.hilt.android.HiltAndroidApp
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
-@HiltAndroidApp
 class AppController : Application() {
 
     override fun onCreate() {
@@ -14,6 +16,15 @@ class AppController : Application() {
         // Debug only Timber Tree
         if (BuildConfig.DEBUG) {
             Timber.plant(DebugTimberTree())
+        }
+
+        // Initialize Koin
+        startKoin {
+            androidContext(this@AppController)
+            if (BuildConfig.DEBUG) {
+                androidLogger()
+            }
+            modules(jokeModule)
         }
     }
 }

@@ -22,11 +22,8 @@ materialVersion = "1.6.8" # Icons are not available for 1.7.3
 lifecycleRuntimeKtx = "2.8.6"
 lifecycleViewmodelCompose = "2.8.6"
 
-# Hilt
-hiltAndroid = "2.51"
-hiltCompiler = "2.51"
-hiltNavigationCompose = "1.2.0"
-hiltAndroidGradlePlugin = "2.48"
+# Koin
+koinAndroid = "3.5.3"
 
 # Networking
 retrofit = "2.11.0"
@@ -67,12 +64,9 @@ androidx-material = { module = "androidx.compose.material:material", version.ref
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 
-# Hilt
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
-androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltNavigationCompose" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
+# Koin
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroid" }
 
 # Networking
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
