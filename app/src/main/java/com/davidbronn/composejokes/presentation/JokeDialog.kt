@@ -32,8 +32,8 @@ import com.davidbronn.composejokes.domain.model.Item
 @Composable
 fun JokeDialog(
     isCategory: Boolean,
-    categories: MutableList<Item>,
-    blackList: MutableList<Item>,
+    categories: List<Item>,
+    blackList: List<Item>,
     onDismiss: () -> Unit,
     onRefresh: () -> Unit,
     updateSelection: (Boolean, Int, Boolean) -> Unit,
@@ -60,7 +60,7 @@ fun JokeDialog(
 @Composable
 private fun DialogContent(
     title: String,
-    items: MutableList<Item>,
+    items: List<Item>,
     onDismiss: () -> Unit,
     onRefresh: () -> Unit,
     onUpdateSelection: (Int, Boolean) -> Unit,
@@ -94,20 +94,20 @@ private fun DialogContent(
 
 @Composable
 fun GroupedCheckbox(
-    items: MutableList<Item>,
+    items: List<Item>,
     updateSelection: (Int, Boolean) -> Unit,
 ) {
     items.forEachIndexed { index, item ->
+        val checkedState = remember { mutableStateOf(item.selected) }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(vertical = 8.dp)
         ) {
-            val checkedState = remember { mutableStateOf(item.selected) }
             Checkbox(
                 checked = checkedState.value,
-                onCheckedChange = {
-                    checkedState.value = it
-                    updateSelection(index, checkedState.value)
+                onCheckedChange = { isChecked ->
+                    checkedState.value = isChecked
+                    updateSelection(index, isChecked)
                 }
             )
             Spacer(modifier = Modifier.width(8.dp))
@@ -122,7 +122,7 @@ fun DialogContentPreview() {
     Surface {
         DialogContent(
             title = "Categories",
-            items = mutableListOf(Item(id = 0, title = "Category 1", selected = true)),
+            items = listOf(Item(id = 0, title = "Category 1", selected = true)),
             onDismiss = {},
             onRefresh = {},
             onUpdateSelection = { _, _ -> }
@@ -135,7 +135,7 @@ fun DialogContentPreview() {
 fun GroupedCheckboxPreview() {
     Surface {
         GroupedCheckbox(
-            items = mutableListOf(Item(id = 0, title = "Category 1", selected = true)),
+            items = listOf(Item(id = 0, title = "Category 1", selected = true)),
             updateSelection = { _, _ -> }
         )
     }

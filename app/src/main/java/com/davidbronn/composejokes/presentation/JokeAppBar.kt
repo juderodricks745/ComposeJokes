@@ -29,8 +29,8 @@ import com.davidbronn.composejokes.domain.model.Item
 
 @Composable
 fun JokeAppBar(
-    categories: MutableList<Item>,
-    blackList: MutableList<Item>,
+    categories: List<Item>,
+    blackList: List<Item>,
     onRefreshJoke: () -> Unit,
     onUpdateCategory: (Int, Boolean) -> Unit,
     onUpdateBlackList: (Int, Boolean) -> Unit,
@@ -98,21 +98,30 @@ fun JokeAppBar(
                     expandedMenu.value = false
                     openDialog(DialogOptionType.Category)
                 }) {
-                    Text(text = stringResource(R.string.lbl_categories), style = MaterialTheme.typography.body1)
+                    Text(
+                        text = stringResource(R.string.lbl_categories),
+                        style = MaterialTheme.typography.body1
+                    )
                 }
                 Divider()
                 DropdownMenuItem(onClick = {
                     expandedMenu.value = false
                     openDialog(DialogOptionType.BlackList)
                 }) {
-                    Text(text = stringResource(R.string.lbl_blacklist), style = MaterialTheme.typography.body1)
+                    Text(
+                        text = stringResource(R.string.lbl_blacklist),
+                        style = MaterialTheme.typography.body1
+                    )
                 }
                 Divider()
                 DropdownMenuItem(onClick = {
                     expandedMenu.value = false
                     readMeDialogState = true
                 }) {
-                    Text(text = stringResource(R.string.lbl_read_me), style = MaterialTheme.typography.body1)
+                    Text(
+                        text = stringResource(R.string.lbl_read_me),
+                        style = MaterialTheme.typography.body1
+                    )
                 }
             }
         }

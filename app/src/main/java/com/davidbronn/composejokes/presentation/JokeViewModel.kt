@@ -20,8 +20,8 @@ class JokeViewModel @Inject constructor(
     private val repository: IJokeRepository
 ) : ViewModel() {
 
-    var category = mutableListOf<Item>()
-    var blacklist = mutableListOf<Item>()
+    var category = listOf<Item>()
+    var blacklist = listOf<Item>()
     private val _state = MutableStateFlow<JokeState>(JokeState.Loading)
     val state: StateFlow<JokeState> = _state
 
